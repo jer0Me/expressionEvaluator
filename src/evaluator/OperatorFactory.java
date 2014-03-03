@@ -1,8 +1,6 @@
 package evaluator;
 
 import evaluator.operators.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class OperatorFactory {
 
