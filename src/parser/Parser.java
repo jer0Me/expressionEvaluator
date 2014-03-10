@@ -1,6 +1,7 @@
 package parser;
 
 import evaluator.Expression;
+import evaluator.InvalidOperationException;
 import java.util.Stack;
 
 public class Parser {
@@ -13,7 +14,6 @@ public class Parser {
         this.parserStrategy = parserStrategy;
     }
 
-    //TODO
     public Expression parse(Token[] tokens) {
         for (Token token : tokens) {
             if (token instanceof Token.Constant) {
@@ -25,27 +25,54 @@ public class Parser {
                         processBreak();
                         continue;
                     }
-                    if (hasLessPrecedence(token)) {
-                        parserStrategy.build((Token.Symbol) token);
+                    while (!checkPrecedenceRule((Token.Symbol) token)) {
+                        parserStrategy.build(symbols.pop());
                     }
                 }
                 symbols.push((Token.Symbol) token);
             }
         }
-        while (symbols.size()>0) {
+        while (symbols.size() > 0) {
             parserStrategy.build(symbols.pop());
         }
         return parserStrategy.getExpression();
     }
 
-    // Todo
-    private boolean hasLessPrecedence(Token token) {
+    private int operatorPrecedence(Token.Symbol symbol) {
+        if (symbol.equals(Token.symbol("+")) || symbol.equals(Token.symbol("-"))) {
+            return 2;
+        }
+        if (symbol.equals(Token.symbol("/")) || symbol.equals(Token.symbol("*"))) {
+            return 3;
+        }
+        if (symbol.equals(Token.symbol("^"))) {
+            return 4;
+        }
+        throw new InvalidOperationException();
+    }
+
+    private boolean isLeftAssociative(Token.Symbol symbol) {
+        if (symbol.equals(Token.symbol("^"))) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isRightAssociative(Token.Symbol symbol) {
+        if (symbol.equals(Token.symbol("^"))) {
+            return true;
+        }
         return false;
-        
+    }
+
+    private boolean checkPrecedenceRule(Token.Symbol symbol) {
+        Token.Symbol topSymbolStack = symbols.peek();
+        return (isLeftAssociative(symbol) && (operatorPrecedence(symbol) > operatorPrecedence(topSymbolStack)))
+                || (isRightAssociative(symbol) && (operatorPrecedence(symbol) >= operatorPrecedence(topSymbolStack)));
     }
 
     private void processBreak() {
-        while (!symbols.peek().equals(new Token.Symbol("("))){
+        while (!symbols.peek().equals(new Token.Symbol("("))) {
             parserStrategy.build(symbols.pop());
         }
         symbols.pop();
