@@ -31,7 +31,10 @@ public class ExpressionTest {
     
     @Test
     public void testNumberSubtraction() {
-        
+        assertEquals(5, new Subtraction(new Constant(10), new Constant(5)).evaluate());
+        assertEquals(10.0, new Subtraction(new Constant(20), new Constant(10.0)).evaluate());
+        assertEquals(2.5, new Subtraction(new Constant(5.0), new Constant(2.5)).evaluate());
+        assertEquals(5.0, new Subtraction(new Constant(10.0), new Constant(5)).evaluate());        
     }
 
 }
