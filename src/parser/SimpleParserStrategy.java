@@ -18,9 +18,6 @@ public class SimpleParserStrategy extends ParserStrategy {
     public void build(Token.Symbol symbol) {
         Expression right = expressions.pop();
         Expression left = expressions.pop();
-        if(symbol.equals("+")) expressions.push(new Addition(left,right));
-        if(symbol.equals("-")) expressions.push(new Subtraction(left,right));
-        if(symbol.equals("*")) expressions.push(new Multiplication(left, right));
-        if(symbol.equals("/")) expressions.push(new Division(left,right));
+        expressions.push(new ExpressionFactory().createExpression(symbol, left, right));
     }
 }
