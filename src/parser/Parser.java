@@ -6,29 +6,48 @@ import java.util.Stack;
 public class Parser {
 
     private final Stack<Token.Symbol> symbols;
-    private final Stack<Expression> expressions;
-    private final ExpressionFactory expressionFactory;
+    private final ParserStrategy parserStrategy;
 
-    public Parser(ExpressionFactory expressionFactory) {
+    public Parser(ParserStrategy parserStrategy) {
         symbols = new Stack<>();
-        expressions = new Stack<>();
-        this.expressionFactory = expressionFactory;
+        this.parserStrategy = parserStrategy;
     }
-    
+
     //TODO
-    public Expression parse (Token[] tokens) {
-        
-        return null;
-        
-      
+    public Expression parse(Token[] tokens) {
+        for (Token token : tokens) {
+            if (token instanceof Token.Constant) {
+                parserStrategy.build((Token.Constant) token);
+            }
+            if (token instanceof Token.Symbol) {
+                if (symbols.size() > 0) {
+                    if (((Token.Symbol) token).equals(new Token.Symbol(")"))) {
+                        processBreak();
+                        continue;
+                    }
+                    if (hasLessPrecedence(token)) {
+                        parserStrategy.build((Token.Symbol) token);
+                    }
+                }
+                symbols.push((Token.Symbol) token);
+            }
+        }
+        while (symbols.size()>0) {
+            parserStrategy.build(symbols.pop());
+        }
+        return parserStrategy.getExpression();
+    }
+
+    // Todo
+    private boolean hasLessPrecedence(Token token) {
+        return false;
         
     }
-    
-    private void parse (Token token) {
-        
-    }
-    
-    private void process (Token.Symbol symbol) {
-        
+
+    private void processBreak() {
+        while (!symbols.peek().equals(new Token.Symbol("("))){
+            parserStrategy.build(symbols.pop());
+        }
+        symbols.pop();
     }
 }
