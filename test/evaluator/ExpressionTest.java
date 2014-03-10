@@ -36,5 +36,13 @@ public class ExpressionTest {
         assertEquals(2.5, new Subtraction(new Constant(5.0), new Constant(2.5)).evaluate());
         assertEquals(5.0, new Subtraction(new Constant(10.0), new Constant(5)).evaluate());        
     }
+    
+    @Test
+    public void testNumberDivision() {
+        assertEquals(2, new Division(new Constant(10), new Constant(5)).evaluate());
+        assertEquals(5.0, new Division(new Constant(10), new Constant(2.0)).evaluate());
+        assertEquals(2.5, new Division(new Constant(5.0), new Constant(2)).evaluate());
+        assertEquals(3, new Division(new Constant(10), new Constant(3)).evaluate());
+    }
 
 }
