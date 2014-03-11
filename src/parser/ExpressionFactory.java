@@ -1,19 +1,19 @@
 package parser;
 
-import evaluator.Addition;
-import evaluator.Division;
 import evaluator.Expression;
-import evaluator.Multiplication;
-import evaluator.Subtraction;
+import java.util.Set;
+import org.reflections.Reflections;
 
 public class ExpressionFactory {
 
-    public Expression createExpression(Token.Symbol symbol, Expression left, Expression right) {
-        if(symbol.equals("+")) return new Addition(left,right);
-        if(symbol.equals("-")) return new Subtraction(left,right);
-        if(symbol.equals("*")) return new Multiplication(left, right);
-        if(symbol.equals("/")) return new Division(left,right);
+    public Expression createExpression(Token.Symbol symbol, Expression left, Expression right) throws InstantiationException, IllegalAccessException {
+        Reflections reflections = new Reflections("evaluator.expression.builder");
+        Set<Class<? extends BuilderExpression>> classes = reflections.getSubTypesOf(BuilderExpression.class);
+        for (Class<? extends BuilderExpression> cls : classes) {
+            BuilderExpression builderClass = cls.newInstance();
+            if(symbol.equals(builderClass.getSymbol())) return builderClass.buildExpression(left, right);
+        }
         return null;
-    }
-    
+    }    
+       
 }

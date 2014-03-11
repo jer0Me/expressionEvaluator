@@ -1,11 +1,9 @@
 package parser;
 
-import evaluator.Addition;
 import evaluator.Constant;
-import evaluator.Division;
 import evaluator.Expression;
-import evaluator.Multiplication;
-import evaluator.Subtraction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SimpleParserStrategy extends ParserStrategy {
     
@@ -15,9 +13,13 @@ public class SimpleParserStrategy extends ParserStrategy {
     }
 
     @Override
-    public void build(Token.Symbol symbol) {
-        Expression right = expressions.pop();
-        Expression left = expressions.pop();
-        expressions.push(new ExpressionFactory().createExpression(symbol, left, right));
+    public void build(Token.Symbol symbol)  {
+        try {
+            Expression right = expressions.pop();
+            Expression left = expressions.pop();
+            expressions.push(new ExpressionFactory().createExpression(symbol, left, right));
+        } catch (InstantiationException | IllegalAccessException  ex) {
+            Logger.getLogger(SimpleParserStrategy.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 }
