@@ -10,7 +10,7 @@ public class Multiplication extends BinaryOperation {
 
     @Override
     protected BinaryOperator createBinaryOperator(Object left, Object right) {
-        return new OperatorFactory().createOperator("Multiplication", left, right);
+        return new BinaryOperatorFactory().createOperator("Multiplication", left, right);
     }
 
 }

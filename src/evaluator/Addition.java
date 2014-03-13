@@ -10,7 +10,7 @@ public class Addition extends BinaryOperation {
 
     @Override
     protected BinaryOperator createBinaryOperator(Object left, Object right) {
-        return new OperatorFactory().createOperator("Addition", left, right);
+        return new BinaryOperatorFactory().createOperator("Addition", left, right);
 
     }
 }

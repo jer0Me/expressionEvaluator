@@ -10,7 +10,7 @@ public class Subtraction extends BinaryOperation {
 
     @Override
     protected BinaryOperator createBinaryOperator(Object left, Object right) {
-        return new OperatorFactory().createOperator("Subtraction", left, right);
+        return new BinaryOperatorFactory().createOperator("Subtraction", left, right);
     }
     
 }
