@@ -4,7 +4,7 @@ import evaluator.Expression;
 
 public interface BuilderExpression {
         
-    public String getSymbol();
+    public Token.Symbol getSymbol();
     
     public Expression buildExpression(Expression left, Expression right);
 
