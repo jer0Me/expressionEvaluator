@@ -1,7 +1,10 @@
 package parser;
 
+import evaluator.Constant;
+import evaluator.Expression;
+
+import static org.junit.Assert.*;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
 
 public class ParserTest {
 
