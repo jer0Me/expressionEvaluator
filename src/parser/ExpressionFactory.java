@@ -5,6 +5,7 @@ import evaluator.Expression;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -15,17 +16,12 @@ import org.reflections.util.FilterBuilder;
 public class ExpressionFactory {
 
     public Expression createExpression(SymbolToken symbol, Expression left, Expression right) {
-
         BuilderExpression builder = getBuilderExpression(symbol);
         return builder.getExpression(left, right);
     }
 
     private BuilderExpression getBuilderExpression(SymbolToken symbol) {
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
-                .setUrls(ClasspathHelper.forPackage("evaluator.builders"))
-                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("evaluator.builders"))));
-
+        Reflections reflections = new Reflections(getConfiguration());
         Set<Class<? extends BuilderExpression>> builderList = reflections.getSubTypesOf(BuilderExpression.class);
 
         BuilderExpression builderExpression = null;
@@ -36,11 +32,17 @@ public class ExpressionFactory {
             } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(BuilderExpression.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (builderExpression.getType().equals(symbol)) {
+            if (builderExpression.getSymbol().equals(symbol)) {
                 return builderExpression;
             }
         }
         return null;
     }
 
+    private Configuration getConfiguration() {
+        return new ConfigurationBuilder()
+                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
+                .setUrls(ClasspathHelper.forPackage("evaluator.builders"))
+                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("evaluator.builders")));
+    }
 }

@@ -1,15 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package evaluator.builders;
 
-/**
- *
- * @author Jerome
- */
-public class BuilderMultiplicationExpression {
-    
+import evaluator.BuilderExpression;
+import evaluator.Expression;
+import evaluator.Multiplication;
+import parser.SymbolToken;
+
+public class BuilderMultiplicationExpression extends BuilderExpression {
+
+    public BuilderMultiplicationExpression(SymbolToken symbol) {
+        super(symbol);
+    }
+
+    @Override
+    public Expression getExpression(Expression left, Expression right) {
+        return new Multiplication(left,right);
+    }
+
 }

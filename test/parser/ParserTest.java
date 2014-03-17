@@ -19,6 +19,4 @@ public class ParserTest {
     public void simpleExpressionTest() {
     }
     
-    
-    
 }
