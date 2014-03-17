@@ -17,5 +17,4 @@ public class SimpleParserStrategy extends ParserStrategy {
         expressions.push(new Constant(constant.getValue()));
     }
     
-    
 }
