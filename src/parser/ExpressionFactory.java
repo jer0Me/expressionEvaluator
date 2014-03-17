@@ -14,13 +14,13 @@ import org.reflections.util.FilterBuilder;
 
 public class ExpressionFactory {
 
-    public Expression createExpression(Token.Symbol symbol, Expression left, Expression right) {
+    public Expression createExpression(SymbolToken symbol, Expression left, Expression right) {
 
         BuilderExpression builder = getBuilderExpression(symbol);
         return builder.getExpression(left, right);
     }
 
-    private BuilderExpression getBuilderExpression(Token.Symbol symbol) {
+    private BuilderExpression getBuilderExpression(SymbolToken symbol) {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(false), new ResourcesScanner())
                 .setUrls(ClasspathHelper.forPackage("evaluator.builders"))

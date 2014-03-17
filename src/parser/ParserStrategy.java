@@ -11,9 +11,9 @@ public abstract class ParserStrategy {
         expressions = new Stack();
     }
 
-    public abstract void build(Token.Constant constant);
+    public abstract void build(ConstantToken constant);
 
-    public abstract void build(Token.Symbol symbol);
+    public abstract void build(SymbolToken symbol);
 
     public Expression getExpression() {
         return expressions.peek();

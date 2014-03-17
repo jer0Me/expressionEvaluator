@@ -1,16 +1,17 @@
 package evaluator;
 
+import parser.SymbolToken;
 import parser.Token;
 
 public abstract class BuilderExpression {
 
-    protected final Token.Symbol type;
+    protected final SymbolToken type;
 
-    public BuilderExpression(Token.Symbol type) {
+    public BuilderExpression(SymbolToken type) {
         this.type = type;
     }
 
-    public Token.Symbol getType() {
+    public SymbolToken getType() {
         return type;
     }
     
