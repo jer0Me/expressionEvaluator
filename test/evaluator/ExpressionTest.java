@@ -44,5 +44,9 @@ public class ExpressionTest {
         assertEquals(2.5, new Division(new Constant(5.0), new Constant(2)).evaluate());
         assertEquals(3, new Division(new Constant(10), new Constant(3)).evaluate());
     }
-
+    
+    @Test
+    public void testMinusNumber() {
+        assertEquals(-10, new Minus(new Constant(10)).evaluate());
+    }
 }

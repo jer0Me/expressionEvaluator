@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class Parser {
 
-    private final Stack<Token.Symbol> symbols;
+    private final Stack<SymbolToken> symbols;
     private final ParserStrategy parserStrategy;
 
     public Parser(ParserStrategy parserStrategy) {
@@ -16,20 +16,20 @@ public class Parser {
 
     public Expression parse(Token[] tokens) {
         for (Token token : tokens) {
-            if (token instanceof Token.Constant) {
-                parserStrategy.build((Token.Constant) token);
+            if (token instanceof ConstantToken) {
+                parserStrategy.build((ConstantToken) token);
             }
-            if (token instanceof Token.Symbol) {
+            if (token instanceof SymbolToken) {
                 if (symbols.size() > 0) {
-                    if (((Token.Symbol) token).equals(new Token.Symbol(")"))) {
+                    if (((SymbolToken) token).equals(new SymbolToken(")"))) {
                         processBreak();
                         continue;
                     }
-                    while (!checkPrecedenceRule((Token.Symbol) token)) {
+                    while (!checkPrecedenceRule((SymbolToken) token)) {
                         parserStrategy.build(symbols.pop());
                     }
                 }
-                symbols.push((Token.Symbol) token);
+                symbols.push((SymbolToken) token);
             }
         }
         while (symbols.size() > 0) {
@@ -38,7 +38,7 @@ public class Parser {
         return parserStrategy.getExpression();
     }
 
-    private int operatorPrecedence(Token.Symbol symbol) {
+    private int operatorPrecedence(SymbolToken symbol) {
         if (symbol.equals(Token.symbol("+")) || symbol.equals(Token.symbol("-"))) {
             return 2;
         }
@@ -51,28 +51,28 @@ public class Parser {
         throw new InvalidOperationException();
     }
 
-    private boolean isLeftAssociative(Token.Symbol symbol) {
+    private boolean isLeftAssociative(SymbolToken symbol) {
         if (symbol.equals(Token.symbol("^"))) {
             return false;
         }
         return true;
     }
 
-    private boolean isRightAssociative(Token.Symbol symbol) {
+    private boolean isRightAssociative(SymbolToken symbol) {
         if (symbol.equals(Token.symbol("^"))) {
             return true;
         }
         return false;
     }
 
-    private boolean checkPrecedenceRule(Token.Symbol symbol) {
-        Token.Symbol topSymbolStack = symbols.peek();
+    private boolean checkPrecedenceRule(SymbolToken symbol) {
+        SymbolToken topSymbolStack = symbols.peek();
         return (isLeftAssociative(symbol) && (operatorPrecedence(symbol) > operatorPrecedence(topSymbolStack)))
                 || (isRightAssociative(symbol) && (operatorPrecedence(symbol) >= operatorPrecedence(topSymbolStack)));
     }
 
     private void processBreak() {
-        while (!symbols.peek().equals(new Token.Symbol("("))) {
+        while (!symbols.peek().equals(new SymbolToken("("))) {
             parserStrategy.build(symbols.pop());
         }
         symbols.pop();

@@ -2,9 +2,9 @@ package evaluator;
 
 import evaluator.operators.*;
 
-public class OperatorFactory {
+public class BinaryOperatorFactory {
 
-    public OperatorFactory() {
+    public BinaryOperatorFactory() {
     }
 
     public BinaryOperator createOperator(String operator, Object left, Object right) throws InvalidOperationException {

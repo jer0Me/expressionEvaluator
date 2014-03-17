@@ -10,7 +10,7 @@ public class Division extends BinaryOperation {
 
     @Override
     protected BinaryOperator createBinaryOperator(Object left, Object right) {
-        return new OperatorFactory().createOperator("Division", left, right);
+        return new BinaryOperatorFactory().createOperator("Division", left, right);
     }
     
 }
