@@ -4,13 +4,13 @@ import parser.SymbolToken;
 
 public abstract class BuilderExpression {
 
-    protected static SymbolToken symbol;
+    protected final SymbolToken symbol;
 
     public BuilderExpression(SymbolToken symbol) {
-        BuilderExpression.symbol = symbol;
+        this.symbol = symbol;
     }
 
-    public static SymbolToken getSymbol() {
+    public final SymbolToken getSymbol() {
         return symbol;
     }
 

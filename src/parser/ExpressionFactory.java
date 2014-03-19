@@ -22,21 +22,13 @@ public class ExpressionFactory {
 
     private BuilderExpression getBuilderExpression(SymbolToken symbol) {
         Reflections reflections = new Reflections(getConfiguration());
+        Set<Class<? extends BuilderExpression>> buildersList = getBuildersList(reflections);
+        return getBuilder(buildersList, symbol);
+    }
+
+    private Set<Class<? extends BuilderExpression>> getBuildersList(Reflections reflections) {
         Set<Class<? extends BuilderExpression>> builderList = reflections.getSubTypesOf(BuilderExpression.class);
-
-        BuilderExpression builderExpression = null;
-
-        for (Class builder : builderList) {
-            try {
-                builderExpression = (BuilderExpression) builder.newInstance();
-            } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(BuilderExpression.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (builderExpression.getSymbol().equals(symbol)) {
-                return builderExpression;
-            }
-        }
-        return null;
+        return builderList;
     }
 
     private Configuration getConfiguration() {
@@ -45,4 +37,18 @@ public class ExpressionFactory {
                 .setUrls(ClasspathHelper.forPackage("evaluator.builders"))
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix("evaluator.builders")));
     }
+
+    private BuilderExpression getBuilder(Set<Class<? extends BuilderExpression>> buildersList, SymbolToken symbol) {
+        BuilderExpression builder;
+        for (Class<? extends BuilderExpression> builderClass : buildersList) {
+            try {
+                builder = builderClass.newInstance();
+                if (builder.getSymbol().equals(symbol)) return builder;
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(ExpressionFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
 }
+    
