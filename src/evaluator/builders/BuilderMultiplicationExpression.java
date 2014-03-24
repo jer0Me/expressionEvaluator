@@ -3,12 +3,12 @@ package evaluator.builders;
 import evaluator.BuilderExpression;
 import evaluator.Expression;
 import evaluator.Multiplication;
-import parser.SymbolToken;
+import parser.Token;
 
 public class BuilderMultiplicationExpression extends BuilderExpression {
 
-    public BuilderMultiplicationExpression(SymbolToken symbol) {
-        super(symbol);
+    public BuilderMultiplicationExpression() {
+        super(Token.symbol("*", 3, true));
     }
 
     @Override
