@@ -4,9 +4,21 @@ import java.util.Objects;
 
 public class SymbolToken extends Token {
     private final String token;
+    private final int precedence;
+    private final boolean leftAssociative;
 
-    public SymbolToken(String token) {
+    public SymbolToken(String token, int precedence, boolean leftAssociative) {
         this.token = token;
+        this.precedence = precedence;
+        this.leftAssociative = leftAssociative;
+    }
+
+    public boolean isLeftAssociative() {
+        return leftAssociative;
+    }
+
+    public int getPrecedence() {
+        return precedence;
     }
 
     @Override
