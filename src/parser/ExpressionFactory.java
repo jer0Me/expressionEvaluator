@@ -22,8 +22,7 @@ public class ExpressionFactory {
                 return "evaluator.builders";
             }
         };
-        Reflections reflections = builderReflections.build();
-        Set<Class<? extends BuilderExpression>> buildersList = builderReflections.getBuildersList(reflections, BuilderExpression.class);
+        Set<Class<? extends BuilderExpression>> buildersList = builderReflections.getBuildersList(BuilderExpression.class);
         return getBuilder(buildersList, symbol);
     }
 

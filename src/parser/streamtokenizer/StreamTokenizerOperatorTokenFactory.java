@@ -16,10 +16,8 @@ public class StreamTokenizerOperatorTokenFactory {
                 return "parser.streamtokenizer.operator.builder";
             }
         };
-        Reflections reflections = builderReflections.build();
-
         Set<Class<? extends StreamTokenizerBuilderOperatorToken>> builders = builderReflections.getBuildersList
-        (reflections, StreamTokenizerBuilderOperatorToken.class);
+        (StreamTokenizerBuilderOperatorToken.class);
         return getBuilder(builders, tokenizer).build();
     }
 

@@ -11,10 +11,12 @@ import org.reflections.util.FilterBuilder;
 
 public abstract class BuilderReflections<Type> {
 
+    private Reflections reflections;
+    
     public abstract String getNamePackage();
     
-    public Reflections build(){
-        return new Reflections(getConfiguration());
+    public void createInstanceReflections(){
+        reflections = new Reflections(getConfiguration());
     }
     
     private Configuration getConfiguration() {
@@ -24,7 +26,8 @@ public abstract class BuilderReflections<Type> {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(getNamePackage())));
     }
     
-    public Set<Class<? extends Type>> getBuildersList(Reflections reflections, Class<Type> Type) {
+    public Set<Class<? extends Type>> getBuildersList(Class<Type> Type) {
+        createInstanceReflections();
         Set<Class<? extends Type>> builderList = reflections.getSubTypesOf(Type);
         return builderList;
     }
