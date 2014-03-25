@@ -28,6 +28,18 @@ public class ParserTest {
     }
     
     @Test
+    public void lexicalAnalyzerTest2() throws IOException {
+        LexicalAnalyzer analyzer = new LexicalAnalyzer();
+        
+        Token[] listToken = analyzer.analyze("10.0-2");
+        
+        assertTrue(listToken[0].equals(Token.constant(10.0)));
+        assertTrue(listToken[1].equals(Token.symbol("-", 2, true)));
+        assertTrue(listToken[2].equals(Token.constant(2.0)));
+    }
+    
+    
+    @Test
     public void simpleExpressionTest() {
     }
     

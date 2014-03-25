@@ -11,7 +11,11 @@ public abstract class StreamTokenizerBuilderOperatorToken {
     public StreamTokenizerBuilderOperatorToken(String operator) {
         this.operator = operator;
     }
-    
+
+    public String getOperator() {
+        return operator;
+    }
+
     public abstract Token build();
     
 }
