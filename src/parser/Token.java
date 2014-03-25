@@ -9,4 +9,5 @@ public abstract class Token {
     public static SymbolToken symbol(String symbol, Integer precedence, boolean leftAssociative) {
         return new SymbolToken(symbol, precedence, leftAssociative);
     }
+    
 }
