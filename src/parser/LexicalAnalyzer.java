@@ -1,5 +1,8 @@
 package parser;
 
+import parser.streamtokenizer.StreamTokenizerOperatorToken;
+import parser.streamtokenizer.StreamTokenizerTypeToken;
+import parser.streamtokenizer.StreamTokenizerNumberToken;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;

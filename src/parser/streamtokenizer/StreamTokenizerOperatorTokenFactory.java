@@ -1,4 +1,4 @@
-package parser;
+package parser.streamtokenizer;
 
 public class StreamTokenizerOperatorTokenFactory {
 

@@ -1,6 +1,7 @@
-package parser;
+package parser.streamtokenizer;
 
 import java.io.StreamTokenizer;
+import parser.Token;
 import parser.Token;
 
 public abstract class StreamTokenizerBuilderOperatorToken {
@@ -11,6 +12,6 @@ public abstract class StreamTokenizerBuilderOperatorToken {
         this.operator = operator;
     }
     
-    public abstract Token build(StreamTokenizer tokenizer);
+    public abstract Token build();
     
 }

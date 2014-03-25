@@ -1,6 +1,7 @@
-package parser;
+package parser.streamtokenizer;
 
 import java.io.StreamTokenizer;
+import parser.Token;
 
 public class StreamTokenizerOperatorToken implements StreamTokenizerTypeToken {
 
