@@ -4,46 +4,41 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LexicalAnalyzer {
 
     public Token[] analyze(String string) throws IOException {
         StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(string));
-        tokenizer.ordinaryChar('-'); 
-        List<Token> tokBuf = getListToken(tokenizer);
-        Token[] listToken = new Token[tokBuf.size()];
-        for (int i = 0; i < tokBuf.size(); i++) {
-            listToken[i] = tokBuf.get(i);
+        tokenizer.ordinaryChar('-');
+        return getListToken(tokenizer);
+    }
+
+    private Token[] getListToken(StreamTokenizer tokenizer) throws IOException {
+        ArrayList<Token> tokens = new ArrayList<>();
+        while(tokenizer.nextToken() != StreamTokenizer.TT_EOF){
+            tokens.add(getToken(tokenizer));
+        }
+        return getArrayTokens(tokens);
+    }
+
+    private Token getToken(StreamTokenizer tokenizer) {
+        return getStreamTokenizerType(tokenizer).getToken(tokenizer);
+    }
+    
+    private StreamTokenizerType getStreamTokenizerType(StreamTokenizer tokenizer){
+        return (tokenizer.ttype == StreamTokenizer.TT_NUMBER? 
+                new StreamTokenizerNumber(): new StreamTokenizerOperator());
+    }
+
+    private Token[] getArrayTokens(ArrayList<Token> tokens) {
+        Token[] listToken = new Token[tokens.size()];
+        for (int i = 0; i < tokens.size(); i++) {
+            listToken[i] = tokens.get(i);
         }
         return listToken;
     }
-
-    private List<Token> getListToken(StreamTokenizer tokenizer) throws IOException {
-        List<Token> tokBuf = new ArrayList<>();
-        while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-            switch (tokenizer.ttype) {
-                case StreamTokenizer.TT_NUMBER:
-                    tokBuf.add(Token.constant(tokenizer.nval));
-                    break;
-                default:
-                    if((char)tokenizer.ttype == '-') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),2, true));
-                    if((char)tokenizer.ttype == '+') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),2, true));
-                    if((char)tokenizer.ttype == '/') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),3, true));
-                    if((char)tokenizer.ttype == '*') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),3, true));
-                    if((char)tokenizer.ttype == '(') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),-1, true));
-                    if((char)tokenizer.ttype == ')') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),-1, true));
-                    if((char)tokenizer.ttype == '^') 
-                        tokBuf.add(Token.symbol(String.valueOf((char) tokenizer.ttype),4, false));
-            }
-        }
-        return tokBuf;
-    }
-
+    
 }
+
+
+
