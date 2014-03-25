@@ -25,9 +25,9 @@ public class LexicalAnalyzer {
         return getStreamTokenizerType(tokenizer).getToken(tokenizer);
     }
     
-    private StreamTokenizerType getStreamTokenizerType(StreamTokenizer tokenizer){
+    private StreamTokenizerTypeToken getStreamTokenizerType(StreamTokenizer tokenizer){
         return (tokenizer.ttype == StreamTokenizer.TT_NUMBER? 
-                new StreamTokenizerNumber(): new StreamTokenizerOperator());
+                new StreamTokenizerNumberToken(): new StreamTokenizerOperatorToken());
     }
 
     private Token[] getArrayTokens(ArrayList<Token> tokens) {

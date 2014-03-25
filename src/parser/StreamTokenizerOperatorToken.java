@@ -2,7 +2,7 @@ package parser;
 
 import java.io.StreamTokenizer;
 
-public class StreamTokenizerOperator implements StreamTokenizerType {
+public class StreamTokenizerOperatorToken implements StreamTokenizerTypeToken {
 
     @Override
     public Token getToken(StreamTokenizer tokenizer) {

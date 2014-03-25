@@ -2,7 +2,7 @@ package parser;
 
 import java.io.StreamTokenizer;
 
-public interface StreamTokenizerType {
+public interface StreamTokenizerTypeToken {
     
     public Token getToken(StreamTokenizer tokenizer);
     
