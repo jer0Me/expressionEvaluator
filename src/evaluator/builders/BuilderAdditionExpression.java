@@ -8,7 +8,7 @@ import parser.Token;
 public class BuilderAdditionExpression extends BuilderExpression {
 
     public BuilderAdditionExpression() {
-        super(Token.symbol("+"));
+        super(Token.symbol("+", 2, true));
     }
 
     @Override

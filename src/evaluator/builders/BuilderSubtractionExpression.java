@@ -1,20 +1,19 @@
 package evaluator.builders;
 
 import evaluator.BuilderExpression;
-import evaluator.Division;
 import evaluator.Expression;
+import evaluator.Subtraction;
 import parser.Token;
 
-public class BuilderDivisionExpression extends BuilderExpression {
+public class BuilderSubtractionExpression extends BuilderExpression {
 
-    public BuilderDivisionExpression() {
-        super(Token.symbol("/", 3, true));
-
+    public BuilderSubtractionExpression() {
+        super(Token.symbol("-", 2, true));
     }
 
     @Override
     public Expression getExpression(Expression left, Expression right) {
-        return new Division(left, right);
+        return new Subtraction(left, right);
     }
     
 }

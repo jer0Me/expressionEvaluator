@@ -6,7 +6,7 @@ public abstract class Token {
         return new ConstantToken(value);
     }
 
-    public static SymbolToken symbol(String symbol, int precedence, boolean leftAssociative) {
+    public static SymbolToken symbol(String symbol, Integer precedence, boolean leftAssociative) {
         return new SymbolToken(symbol, precedence, leftAssociative);
     }
     
