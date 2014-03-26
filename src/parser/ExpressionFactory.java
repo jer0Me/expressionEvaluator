@@ -4,9 +4,6 @@ import evaluator.BuilderReflections;
 import evaluator.BuilderExpression;
 import evaluator.Expression;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.reflections.Reflections;
 
 public class ExpressionFactory {
 
@@ -32,9 +29,7 @@ public class ExpressionFactory {
             try {
                 builder = builderClass.newInstance();
                 if (builder.getSymbol().equals(symbol)) return builder;
-            } catch (InstantiationException | IllegalAccessException ex) {
-                Logger.getLogger(ExpressionFactory.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (InstantiationException | IllegalAccessException ex) {}
         }
         return null;
     }
