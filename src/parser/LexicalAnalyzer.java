@@ -1,12 +1,12 @@
 package parser;
 
-import parser.streamtokenizer.StreamTokenizerOperatorToken;
-import parser.streamtokenizer.StreamTokenizerTypeToken;
-import parser.streamtokenizer.StreamTokenizerNumberToken;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
+import parser.streamtokenizer.StreamTokenizerNumberToken;
+import parser.streamtokenizer.StreamTokenizerOperatorToken;
+import parser.streamtokenizer.StreamTokenizerTypeToken;
 
 public class LexicalAnalyzer {
 
@@ -42,6 +42,3 @@ public class LexicalAnalyzer {
     }
     
 }
-
-
-
