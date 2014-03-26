@@ -26,9 +26,9 @@ public abstract class BuilderReflections<Type> {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(getNamePackage())));
     }
     
-    public Set<Class<? extends Type>> getBuildersList(Class<Type> Type) {
+    public Set<Class<? extends Type>> getBuildersList(Class<Type> classType) {
         createInstanceReflections();
-        Set<Class<? extends Type>> builderList = reflections.getSubTypesOf(Type);
+        Set<Class<? extends Type>> builderList = reflections.getSubTypesOf(classType);
         return builderList;
     }
     
