@@ -16,6 +16,6 @@ public abstract class ParserStrategy {
     public abstract void build(SymbolToken symbol);
 
     public Expression getExpression() {
-        return expressions.peek();
+        return expressions.pop();
     }
 }

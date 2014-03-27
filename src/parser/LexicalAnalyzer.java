@@ -8,17 +8,12 @@ import java.util.List;
 
 public class LexicalAnalyzer {
 
-    public Token[] analyze(String string) throws IOException {
+    public List<Token> analyze(String string) throws IOException {
         StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(string));
         tokenizer.ordinaryChar('-'); 
-        List<Token> tokBuf = getListToken(tokenizer);
-        Token[] listToken = new Token[tokBuf.size()];
-        for (int i = 0; i < tokBuf.size(); i++) {
-            listToken[i] = tokBuf.get(i);
-        }
-        return listToken;
+        return getListToken(tokenizer);
     }
-
+    
     private List<Token> getListToken(StreamTokenizer tokenizer) throws IOException {
         List<Token> tokBuf = new ArrayList<>();
         while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {

@@ -23,12 +23,10 @@ public class BinaryOperatorFactory {
 
     private Class getClass(String operator, Object left, Object right) throws ClassNotFoundException {
         return Class.forName(getPackage(operator) + getSignature(operator, left, right));
-        
+
     }
 
     private String getPackage(String operator) {
         return "evaluator.operators." + operator.toLowerCase() + ".";
     }
-
-
 }

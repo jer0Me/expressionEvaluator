@@ -1,6 +1,7 @@
 package parser;
 
 import evaluator.Expression;
+import java.util.List;
 
 public class ShuntingYardParsing extends Parser {
 
@@ -9,23 +10,24 @@ public class ShuntingYardParsing extends Parser {
     }
 
     @Override
-    public Expression parse(Token[] tokens) {
+    public Expression parse(List<Token> tokens) {
         processTokens(tokens);
         processStackSymbols();
         return parserStrategy.getExpression();
     }
 
-    private boolean checkLeftPrecedenceRule(SymbolToken symbol, SymbolToken topSymbolStack) {
-        return symbol.isLeftAssociative() && (symbol.getPrecedence() > topSymbolStack.getPrecedence());
+    private boolean checkLeftPrecedenceRule(SymbolToken symbol) {
+        return symbol.isLeftAssociative() && 
+                (symbol.getPrecedence() > symbolStack.peek().getPrecedence());
     }
 
-    private boolean checkRightPrecedenceRule(SymbolToken symbol, SymbolToken topSymbolStack) {
-        return !symbol.isLeftAssociative() && (symbol.getPrecedence() <= topSymbolStack.getPrecedence());
+    private boolean checkRightPrecedenceRule(SymbolToken symbol) {
+        return !symbol.isLeftAssociative() && 
+                (symbol.getPrecedence() <= symbolStack.peek().getPrecedence());
     }
 
     private boolean checkPrecedencesRule(SymbolToken symbol) {
-        return (checkLeftPrecedenceRule(symbol, symbolStack.peek()))
-                || checkRightPrecedenceRule(symbol, symbolStack.peek());
+        return checkLeftPrecedenceRule(symbol) || checkRightPrecedenceRule(symbol);
     }
 
     private boolean isLeftBreakSymbol(SymbolToken symbol) {
@@ -37,7 +39,7 @@ public class ShuntingYardParsing extends Parser {
     }
 
     private void processStackSymbols() {
-        while (symbolStack.size() > 0) {
+        while (!symbolStack.empty()) {
             parserStrategy.build(symbolStack.pop());
         }
     }
@@ -47,25 +49,30 @@ public class ShuntingYardParsing extends Parser {
     }
 
     private void prepareSymbolStackBeforeInsertion(Token token) {
-        while (!checkPrecedencesRule((SymbolToken) token)) {
-            parserStrategy.build(symbolStack.pop());
-        }
+            while (!symbolStack.empty() && !checkPrecedencesRule((SymbolToken) token)) {
+                parserStrategy.build(symbolStack.pop());
+            }
     }
 
     private void processRightBreakSymbol() {
-        if (symbolStack.size() > 0) {
+        if (!symbolStack.empty()) {
             while (!isLeftBreakSymbol(symbolStack.peek())) {
-            parserStrategy.build(symbolStack.pop());
+                parserStrategy.build(symbolStack.pop());
             }
             symbolStack.pop();
         }
     }
 
     private void processSymbol(SymbolToken symbol) {
-        checkLeftBreakSymbol(symbol);
-        checkRightBreakSymbol(symbol);
+        if (checkAndProcessBreakCase(symbol)) {
+            return;
+        }
         prepareSymbolStackBeforeInsertion(symbol);
         symbolStack.push(symbol);
+    }
+
+    private boolean checkAndProcessBreakCase(SymbolToken symbol) {
+        return checkLeftBreakSymbol(symbol) || checkRightBreakSymbol(symbol);
     }
 
     private void processConstant(ConstantToken constant) {
@@ -74,27 +81,31 @@ public class ShuntingYardParsing extends Parser {
 
     private void processToken(Token token) {
         if (isConstant(token)) {
-            processConstant((ConstantToken)token);
+            processConstant((ConstantToken) token);
         } else {
             processSymbol((SymbolToken) token);
         }
     }
 
-    private void processTokens(Token[] tokens) {
-        for (Token token : tokens) {
+    private void processTokens(List<Token> tokenList) {
+        for (Token token : tokenList) {
             processToken(token);
         }
     }
 
-    private void checkLeftBreakSymbol(SymbolToken symbol) {
-        if (isLeftBreakSymbol(symbol)){
+    private boolean checkLeftBreakSymbol(SymbolToken symbol) {
+        if (isLeftBreakSymbol(symbol)) {
             symbolStack.push(symbol);
+            return true;
         }
+        return false;
     }
 
-    private void checkRightBreakSymbol(SymbolToken symbol) {
-        if (isRightBreakSymbol(symbol)){
+    private boolean checkRightBreakSymbol(SymbolToken symbol) {
+        if (isRightBreakSymbol(symbol)) {
             processRightBreakSymbol();
+            return true;
         }
+        return false;
     }
 }

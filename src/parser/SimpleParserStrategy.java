@@ -4,6 +4,10 @@ import evaluator.Constant;
 import evaluator.Expression;
 
 public class SimpleParserStrategy extends ParserStrategy {
+
+    public SimpleParserStrategy() {
+        super();
+    }
     
     @Override
     public void build(SymbolToken symbol)  {
