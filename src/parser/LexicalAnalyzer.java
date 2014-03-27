@@ -35,6 +35,3 @@ public class LexicalAnalyzer {
                 new StreamTokenizerNumberToken(): new StreamTokenizerOperatorToken());
     }
 }
-
-
-

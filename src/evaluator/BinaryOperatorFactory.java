@@ -12,7 +12,7 @@ public class BinaryOperatorFactory {
         try {
             operatorClass = getClass(operator, left, right);
             return (BinaryOperator) operatorClass.newInstance();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             throw new InvalidOperationException();
         }
     }
